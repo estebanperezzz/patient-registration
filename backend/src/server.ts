@@ -1,13 +1,9 @@
+import app from './app.js';
+import 'dotenv/config';
 
-import express from 'express';
+const PORT = process.env.PORT || 3001;
 
-const app = express();
-const PORT = process.env.PORT || 3001; 
-
-app.get('/', (req, res) => {
-  res.send('Server working');
-});
-
+// Start the server
 app.listen(PORT, () => {
-  console.log(`Server on http://localhost:${PORT}`);
+  console.log(`🚀 Server is running on http://localhost:${PORT}`);
 });
