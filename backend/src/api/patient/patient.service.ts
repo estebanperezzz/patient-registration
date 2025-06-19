@@ -1,14 +1,10 @@
-import prisma from '../../lib/prisma';
-import { supabase } from '../../lib/supabase';
-import { sendRegistrationConfirmationEmail } from '../../services/email.service';
-import { RegisterPatientInput } from './patient.schema';
+import prisma from '../../lib/prisma.js';
+import { supabase } from '../../lib/supabase.js';
+import { sendRegistrationConfirmationEmail } from '../../services/email.service.js';
+import type { RegisterPatientInput } from './patient.schema.js';
 import { v4 as uuidv4 } from 'uuid'; 
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 
-/**
- * Service to create a new patient, upload their document photo, and send an email.
- * @param data The validated patient data from the controller.
- * @param file The document photo file uploaded via Multer.
- */
 export const createPatient = async (
   data: RegisterPatientInput,
   file: Express.Multer.File
@@ -17,7 +13,7 @@ export const createPatient = async (
 
   const fileName = `${uuidv4()}-${file.originalname}`;
   const { error: uploadError } = await supabase.storage
-    .from('document-photos') //Name of the bucket in Supabase
+    .from('document-photos')
     .upload(fileName, file.buffer, {
       contentType: file.mimetype,
       upsert: false,
@@ -44,18 +40,18 @@ export const createPatient = async (
       },
     });
 
-    sendRegistrationConfirmationEmail({
+    void sendRegistrationConfirmationEmail({ 
       email: newPatient.email,
       name: newPatient.fullName,
     });
 
     return newPatient;
-  } catch (error: any) {
-    if (error.code === 'P2002') { 
-      throw new Error(
-        `A patient with this ${error.meta.target.join(', ')} already exists.`
-      );
+  } catch (error) {
+    if (error instanceof PrismaClientKnownRequestError && error.code === 'P2002') {
+      const field = (error.meta?.target as string[])[0];
+      throw new Error(`A patient with this ${field} already exists.`);
     }
+    
     console.error('Prisma create error:', error);
     throw new Error('Failed to create patient record.');
   }

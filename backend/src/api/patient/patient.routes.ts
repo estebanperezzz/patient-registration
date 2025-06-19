@@ -1,8 +1,9 @@
-import express, { Request, Response, NextFunction } from 'express';
-import { registerPatientHandler } from './patient.controller';
-import { registerPatientSchema } from './patient.schema';
-import validateRequest from '../../middleware/validateRequest';
-import upload from '../../middleware/upload';
+import type { Request,  Response, NextFunction } from 'express';
+import express from 'express';
+import { registerPatientHandler } from './patient.controller.js';
+import { registerPatientSchema } from './patient.schema.js';
+import validateRequest from '../../middleware/validateRequest.js';
+import upload from '../../middleware/upload.js';
 
 const router = express.Router();
 

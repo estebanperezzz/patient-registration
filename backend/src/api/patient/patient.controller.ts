@@ -1,6 +1,6 @@
-import { Request, Response } from 'express';
-import { createPatient } from './patient.service';
-import { RegisterPatientInput } from './patient.schema';
+import type { Request, Response } from 'express'; 
+import { createPatient } from './patient.service.js';
+import type { RegisterPatientInput } from './patient.schema.js'; 
 
 export const registerPatientHandler = async (
   req: Request,
@@ -20,8 +20,13 @@ export const registerPatientHandler = async (
     );
     
     res.status(201).json(newPatient);
-  } catch (error: any) {
-    console.error('Error in registerPatientHandler:', error.message);
-    res.status(409).json({ error: error.message });
+  } catch (error) { // <-- CAMBIO AQUÍ (quitamos : any)
+    // Hacemos una verificación de tipo segura para el error
+    if (error instanceof Error) {
+      console.error('Error in registerPatientHandler:', error.message);
+      res.status(409).json({ error: error.message });
+    } else {
+      res.status(500).json({ error: 'An unexpected error occurred.' });
+    }
   }
 };

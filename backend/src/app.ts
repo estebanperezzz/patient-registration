@@ -1,30 +1,31 @@
-import express, { Request, Response, NextFunction } from 'express';
+import express from 'express';
+import type { Request, Response, NextFunction } from 'express'; 
 import cors from 'cors';
-import patientRoutes from './api/patient/patient.routes';
+import patientRoutes from './api/patient/patient.routes.js';
 
-// Create the Express app
 const app = express();
 
-//  Global Middlewares 
 app.use(cors());
-
-//  API Routes 
 
 app.use('/api/patients', patientRoutes);
 
-//  Health Check Route 
 app.get('/health', (req, res) => {
   res.status(200).send('OK');
 });
 
-//  Global Error Handler 
-app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+// --- Global Error Handler Corregido ---
+app.use((err: unknown, req: Request, res: Response, next: NextFunction) => {
   if (res.headersSent) {
     return next(err);
   }
-  
-  console.error(err.stack); 
-  res.status(500).json({ error: 'Something broke!' });
+
+  if (err instanceof Error) {
+    console.error(err.stack);
+    res.status(500).json({ error: 'Something broke!', message: err.message });
+  } else {
+    console.error(err);
+    res.status(500).json({ error: 'An unexpected error occurred.' });
+  }
 });
 
 export default app;
