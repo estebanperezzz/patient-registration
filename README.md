@@ -86,3 +86,16 @@ Once the containers are up and running:
 - **Backend API:** The API will be accessible at `http://localhost:3001`
 
 To stop the application, go to the terminal where `docker-compose` is running and press `Ctrl+C`.
+
+## Continuous Integration
+
+This project uses GitHub Actions to ensure code quality and consistency. Two separate CI pipelines are configured for the backend and frontend:
+
+-   **Backend CI:** On every push or pull request to `main` or `develop`, a workflow runs jobs to:
+    -   Lint the code using ESLint.
+    -   Perform a strict type-check using the TypeScript compiler.
+-   **Frontend CI:** Similarly, a workflow for the frontend runs jobs to:
+    -   Lint the code using ESLint.
+    -   Perform a type-check and verify that the application builds successfully for production.
+
+These checks must pass before any new code can be merged, ensuring a high-quality and stable codebase.
