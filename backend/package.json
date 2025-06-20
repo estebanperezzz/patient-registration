@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "ts-node-dev --respawn --transpile-only --ignore-watch node_modules src/server.ts",
+    "dev": "nodemon --exec tsx src/server.ts",
     "build": "tsc",
     "lint": "eslint . --max-warnings 0",
     "type-check": "tsc --noEmit"
@@ -22,7 +22,8 @@
     "@types/nodemailer": "^6.4.17",
     "@types/uuid": "^10.0.0",
     "eslint": "^9.29.0",
-    "ts-node-dev": "^2.0.0",
+    "nodemon": "^3.1.10",
+    "tsx": "^4.20.3",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.34.1"
   },
