@@ -56,3 +56,12 @@ export const createPatient = async (
     throw new Error('Failed to create patient record.');
   }
 };
+
+export const getAllPatients = async () => {
+  const patients = await prisma.patient.findMany({
+    orderBy: {
+      createdAt: 'desc',
+    },
+  });
+  return patients;
+};

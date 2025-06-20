@@ -5,7 +5,8 @@ import {
   DialogContent,
   DialogTrigger,
 } from '@/components/ui/Dialog';
-import { PatientForm } from '@/features/patients/components/PatientForm';
+import { PatientForm } from '@/features/patients/components/PatientForm.js';
+import { PatientList } from '@/features/patients/components/PatientList.js';
 
 const PatientsPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -21,15 +22,8 @@ const PatientsPage = () => {
         </DialogTrigger>
       </div>
 
-      <div className="p-8 border-2 border-dashed border-slate-300 rounded-lg">
-        <div className="text-center">
-          <h3 className="text-xl font-semibold">No Patients Found</h3>
-          <p className="text-slate-500 mt-2">
-            Click "Add Patient" to register a new patient.
-          </p>
-        </div>
-      </div>
-      
+      <PatientList />
+
       <DialogContent>
         <PatientForm onSuccess={() => setIsModalOpen(false)} />
       </DialogContent>

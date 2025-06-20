@@ -2,7 +2,6 @@ import apiClient from '../../../lib/axios';
 import type { Patient, RegisterPatientFormData } from '../types';
 
 export const getPatients = async (): Promise<Patient[]> => {
-    //TODO in backend
   const response = await apiClient.get('/patients');
   return response.data;
 };
