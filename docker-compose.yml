@@ -1,0 +1,27 @@
+# docker-compose.yml (versión CORREGIDA)
+version: '3.8'
+
+services:
+  backend:
+    container_name: patient-registration-backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    env_file:
+      - ./backend/.env
+    restart: unless-stopped
+
+  frontend:
+    container_name: patient-registration-frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        VITE_API_BASE_URL: http://localhost:3001/api
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
