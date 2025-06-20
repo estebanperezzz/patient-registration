@@ -4,6 +4,7 @@ import { registerPatientHandler } from './patient.controller.js';
 import { registerPatientSchema } from './patient.schema.js';
 import validateRequest from '../../middleware/validateRequest.js';
 import upload from '../../middleware/upload.js';
+import { getAllPatientsHandler } from './patient.controller.js';
 
 const router = express.Router();
 
@@ -30,5 +31,7 @@ router.post(
   validateRequest(registerPatientSchema),
   registerPatientHandler
 );
+
+router.get('/', getAllPatientsHandler);
 
 export default router;
