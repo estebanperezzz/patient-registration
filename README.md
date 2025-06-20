@@ -51,8 +51,8 @@ Follow these steps to get the application running locally.
 
 **1. Clone the repository:**
 ```bash
-git clone <your-repository-url>
-cd <repository-folder>
+git clone git@github.com:estebanperezzz/patient-registration.git
+cd patient_registration
 ```
 
 **2. Backend Configuration:**
